@@ -20,37 +20,53 @@ const ship = (length) => {
     }
   }
 
-  function placeShip(x, y) {
+  function placeSelf(x, y) {
     if (direction == "horizontal") {
       for (let i = 0; i < length; i++) {
         xCoords.push(x + i);
       }
-      yCoords.push(y);
+      for (let i = 0; i < length; i++) {
+        yCoords.push(y);
+      }
     } else if (direction == "vertical") {
       for (let i = 0; i < length; i++) {
         yCoords.push(y + i);
       }
-      xCoords.push(x);
+      for (let i = 0; i < length; i++) {
+        xCoords.push(x);
+      }
     }
   }
 
   function setPlacementDirection(theDirection) {
-    if (theDirection == "vertical") direction = "vertical";
-    if (theDirection == "horizontal") direction = "horizontal";
+    direction = theDirection;
   }
 
-  function getPlacementDirection(theDirection) {
+  function getPlacementDirection() {
     return direction;
+  }
+
+  function getXCoords() {
+    return xCoords;
+  }
+
+  function getYCoords() {
+    return yCoords;
+  }
+
+  function getShipLength() {
+    return length;
   }
 
   return {
     hit,
     isSunk,
-    placeShip,
+    placeSelf,
     getPlacementDirection,
     setPlacementDirection,
-    xCoords,
-    yCoords,
+    getXCoords,
+    getYCoords,
+    getShipLength,
   };
 };
 

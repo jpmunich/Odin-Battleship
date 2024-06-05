@@ -11,7 +11,7 @@ const ship = (length) => {
   }
 
   function isSunk() {
-    if (numTimesHit <= length) {
+    if (numTimesHit >= length) {
       sunk = true;
       return sunk;
     } else {

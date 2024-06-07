@@ -27,9 +27,8 @@ const gameBoard = () => {
 
     for (let i = 0; i < theShip.getShipLength(); i++) {
       // Check to make sure two ships do not overlap
-      if (
-        grid[theShip.getYCoords()[i] - 1][theShip.getXCoords()[i] - 1] == "S"
-      ) {
+      // prettier-ignore
+      if (grid[theShip.getYCoords()[i] - 1][theShip.getXCoords()[i] - 1] == "S") {
         ships.pop();
         for (let j = 0; j < i; j++) {
           grid[theShip.getYCoords()[j] - 1][theShip.getXCoords()[j] - 1] = "";
@@ -43,9 +42,13 @@ const gameBoard = () => {
     return grid;
   }
 
-  function receiveAttack(x, y) {}
+  function receiveAttack(x, y) {
+    if (grid[y - 1][x - 1] == "H") return "Tile already hit";
+    grid[y - 1][x - 1] = "H";
+    return grid;
+  }
 
-  return { placeShip, grid };
+  return { placeShip, receiveAttack };
 };
 
 export { gameBoard };

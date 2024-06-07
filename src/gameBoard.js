@@ -43,7 +43,21 @@ const gameBoard = () => {
   }
 
   function receiveAttack(x, y) {
-    if (grid[y - 1][x - 1] == "H") return "Tile already hit";
+    if (grid[y - 1][x - 1] == "H" || grid[y - 1][x - 1] == "SH")
+      return "Tile already hit";
+
+    if (ships.length > 0) {
+      for (let i = 0; i < ships.length; i++) {
+        for (let j = 0; j < ships[i].getShipLength(); j++) {
+          if (ships[i].getXCoords()[j] == x && ships[i].getYCoords()[j] == y) {
+            ships[i].hit();
+            grid[y - 1][x - 1] = "SH";
+            return grid;
+          }
+        }
+      }
+    }
+
     grid[y - 1][x - 1] = "H";
     return grid;
   }

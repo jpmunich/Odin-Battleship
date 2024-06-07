@@ -92,18 +92,32 @@ test("receive attack processes a hit on ship", () => {
   const theGameBoard = gameBoard();
   theGameBoard.placeShip(3, "horizontal", 5, 6);
   theGameBoard.placeShip(4, "vertical", 1, 1);
-  theGameBoard.receiveAttack(6, 6);
+  theGameBoard.receiveAttack(3, 6);
 
-  expect(theGameBoard.receiveAttack(3, 6)).toEqual([
+  expect(theGameBoard.receiveAttack(6, 6)).toEqual([
     ["S", "", "", "", "", "", "", "", "", ""],
     ["S", "", "", "", "", "", "", "", "", ""],
     ["S", "", "", "", "", "", "", "", "", ""],
     ["S", "", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", "", ""],
-    ["", "", "H", "", "S", "H", "S", "", "", ""],
+    ["", "", "H", "", "S", "SH", "S", "", "", ""],
     ["", "", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", "", ""],
   ]);
 });
+
+/*
+This test works if the inner for loop in receiveAttack() returns ships[j].getNumTimesHit() because the test checks
+to see if the correct ship was hit
+
+test("receive attack processes a hit on ship", () => {
+  const theGameBoard = gameBoard();
+  theGameBoard.placeShip(3, "horizontal", 5, 6);
+  theGameBoard.placeShip(4, "vertical", 1, 1);
+  theGameBoard.receiveAttack(3, 6);
+
+  expect(theGameBoard.receiveAttack(6, 6)).toBe(1);
+});
+*/

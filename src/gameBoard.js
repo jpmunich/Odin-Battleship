@@ -51,6 +51,11 @@ const gameBoard = () => {
         for (let j = 0; j < ships[i].getShipLength(); j++) {
           if (ships[i].getXCoords()[j] == x && ships[i].getYCoords()[j] == y) {
             ships[i].hit();
+            if (ships[i].isSunk()) {
+              ships[i].isSunk();
+              grid[y - 1][x - 1] = "SH";
+              return ships[i].isSunk();
+            }
             grid[y - 1][x - 1] = "SH";
             return grid;
           }
@@ -62,7 +67,18 @@ const gameBoard = () => {
     return grid;
   }
 
-  return { placeShip, receiveAttack };
+  function checkGameOver() {
+    let shipsSunk = 0;
+
+    for (let i = 0; i < ships.length; i++) {
+      if (ships[i].isSunk()) shipsSunk++;
+    }
+
+    if (shipsSunk >= ships.length) return true;
+    return false;
+  }
+
+  return { placeShip, receiveAttack, checkGameOver };
 };
 
 export { gameBoard };

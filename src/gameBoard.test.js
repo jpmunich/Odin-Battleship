@@ -121,3 +121,50 @@ test("receive attack processes a hit on ship", () => {
   expect(theGameBoard.receiveAttack(6, 6)).toBe(1);
 });
 */
+
+test("receive attack rejects hitting a spot where a ship has already been hit", () => {
+  const theGameBoard = gameBoard();
+  theGameBoard.placeShip(3, "horizontal", 5, 6);
+  theGameBoard.placeShip(4, "vertical", 1, 1);
+  theGameBoard.receiveAttack(6, 6);
+
+  expect(theGameBoard.receiveAttack(6, 6)).toBe("Tile already hit");
+});
+
+test("records sunk ship", () => {
+  const theGameBoard = gameBoard();
+  theGameBoard.placeShip(4, "vertical", 4, 7);
+  theGameBoard.receiveAttack(4, 7);
+  theGameBoard.receiveAttack(4, 8);
+  theGameBoard.receiveAttack(4, 9);
+  expect(theGameBoard.receiveAttack(4, 10)).toBe(true);
+});
+
+test("game not over if all ships not sunk", () => {
+  const theGameBoard = gameBoard();
+  theGameBoard.placeShip(3, "horizontal", 1, 1);
+  theGameBoard.placeShip(3, "vertical", 2, 2);
+  theGameBoard.placeShip(3, "horizontal", 6, 5);
+
+  theGameBoard.receiveAttack(1, 1);
+  expect(theGameBoard.checkGameOver()).toBe(false);
+});
+
+test("game over if all ships sunk", () => {
+  const theGameBoard = gameBoard();
+  theGameBoard.placeShip(3, "horizontal", 1, 1);
+  theGameBoard.placeShip(3, "vertical", 2, 2);
+  theGameBoard.placeShip(3, "horizontal", 6, 5);
+
+  theGameBoard.receiveAttack(1, 1);
+  theGameBoard.receiveAttack(2, 1);
+  theGameBoard.receiveAttack(3, 1);
+  theGameBoard.receiveAttack(2, 2);
+  theGameBoard.receiveAttack(2, 3);
+  theGameBoard.receiveAttack(2, 4);
+  theGameBoard.receiveAttack(6, 5);
+  theGameBoard.receiveAttack(7, 5);
+  theGameBoard.receiveAttack(8, 5);
+
+  expect(theGameBoard.checkGameOver()).toBe(true);
+});

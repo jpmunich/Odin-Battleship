@@ -18,7 +18,11 @@ const gameBoard = () => {
 
   function placeShip(shipLength, axis, x, y) {
     // Set bounds of grid to be 1-10
-    if (x < 1 || x > 10 || y < 1 || y > 10) return "Coordinates Out of Bounds";
+    if (axis === "horizontal") {
+      if (x < 1 || x + shipLength - 1 > 10) return "Coordinates Out of Bounds";
+    } else {
+      if (y < 1 || y + shipLength - 1 > 10) return "Coordinates Out of Bounds";
+    }
 
     const theShip = ship(shipLength);
     theShip.setPlacementDirection(axis);
@@ -51,11 +55,13 @@ const gameBoard = () => {
         for (let j = 0; j < ships[i].getShipLength(); j++) {
           if (ships[i].getXCoords()[j] == x && ships[i].getYCoords()[j] == y) {
             ships[i].hit();
+
             if (ships[i].isSunk()) {
               ships[i].isSunk();
               grid[y - 1][x - 1] = "SH";
               return ships[i].isSunk();
             }
+
             grid[y - 1][x - 1] = "SH";
             return grid;
           }
@@ -64,6 +70,7 @@ const gameBoard = () => {
     }
 
     grid[y - 1][x - 1] = "H";
+
     return grid;
   }
 
@@ -78,7 +85,7 @@ const gameBoard = () => {
     return false;
   }
 
-  return { placeShip, receiveAttack, checkGameOver };
+  return { placeShip, receiveAttack, checkGameOver, grid, ships };
 };
 
 export { gameBoard };

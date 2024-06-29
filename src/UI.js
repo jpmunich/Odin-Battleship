@@ -7,7 +7,7 @@ import {
 } from "./UIController";
 
 const content = document.getElementById("content");
-const thePlayer = player();
+const thePlayer = player("Player One");
 
 function createHeader() {
   const headerContainer = createElementWithClass(
@@ -18,7 +18,8 @@ function createHeader() {
   const headerText = createTextElement("h1", headerContainer, "Battleship");
 }
 
-function createGrid() {
+function createGrid(intendedPlayer) {
+  let shipCount = 0;
   const gridContainer = createElementWithClass(
     "div",
     content,
@@ -44,19 +45,46 @@ function createGrid() {
 
     gridCell.dataset.x = (i % 10) + 1;
     gridCell.dataset.y = Math.floor(i / 10) + 1;
-
+    gridCell.dataset.player = intendedPlayer;
+    console.log(gridCell.dataset.player);
+    // console.log(gridCell.dataset.y);
     gridCell.addEventListener("mouseover", () => {
       // console.log([gridCell.dataset.x, gridCell.dataset.y]);
     });
 
     gridCell.addEventListener("click", () => {
-      thePlayer.playerGameBoard.placeShip(
-        3,
-        "vertical",
-        gridCell.dataset.x % 10,
-        gridCell.dataset.y % 10
-      );
-      console.log(thePlayer.playerGameBoard.ships[0].getYCoords());
+      if (
+        thePlayer.playerGameBoard.canPlaceShip(
+          3,
+          "horizontal",
+          parseInt(gridCell.dataset.x),
+          parseInt(gridCell.dataset.y)
+        )
+      ) {
+        thePlayer.playerGameBoard.placeShip(
+          3,
+          "horizontal",
+          parseInt(gridCell.dataset.x),
+          parseInt(gridCell.dataset.y)
+        );
+
+        console.log(thePlayer.playerGameBoard.ships[shipCount].getShipLength());
+        for (
+          let i = 0;
+          i < thePlayer.playerGameBoard.ships[shipCount].getShipLength();
+          i++
+        ) {
+          console.log(gridCell.dataset.x);
+          document.querySelector(
+            `[data-player='${intendedPlayer}'][data-x='${
+              thePlayer.playerGameBoard.ships[shipCount].getXCoords()[i]
+            }'][data-y='${
+              thePlayer.playerGameBoard.ships[shipCount].getYCoords()[i]
+            }']`
+          ).innerHTML = "S";
+        }
+        shipCount++;
+      }
     });
   }
 }

@@ -46,6 +46,15 @@ const gameBoard = () => {
     return grid;
   }
 
+  function canPlaceShip(shipLength, axis, x, y) {
+    if (axis === "horizontal") {
+      if (x < 1 || x + shipLength - 1 > 10) return false;
+    } else {
+      if (y < 1 || y + shipLength - 1 > 10) return false;
+    }
+    return true;
+  }
+
   function receiveAttack(x, y) {
     if (grid[y - 1][x - 1] == "H" || grid[y - 1][x - 1] == "SH")
       return "Tile already hit";
@@ -85,7 +94,7 @@ const gameBoard = () => {
     return false;
   }
 
-  return { placeShip, receiveAttack, checkGameOver, grid, ships };
+  return { placeShip, receiveAttack, checkGameOver, canPlaceShip, grid, ships };
 };
 
 export { gameBoard };

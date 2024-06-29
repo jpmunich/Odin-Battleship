@@ -62,6 +62,10 @@ const ship = (length) => {
     return numTimesHit;
   }
 
+  function getShipLength() {
+    return length;
+  }
+
   return {
     hit,
     isSunk,
@@ -72,6 +76,7 @@ const ship = (length) => {
     getYCoords,
     getShipLength,
     getNumTimesHit,
+    getShipLength,
   };
 };
 
